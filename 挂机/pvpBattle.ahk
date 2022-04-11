@@ -3,7 +3,7 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
- 
+
 ;F12 get color !
 F12:: 
 MouseGetPos, MouseX, MouseY
@@ -42,7 +42,7 @@ Loop
 {
 	debug(flag)
 	if (flag = 0){
-		send {4} ; /rl
+		send {o} ; /rl
 		Sleep, 1000*8
 
 		waitTime = 0
@@ -118,7 +118,7 @@ Loop
 
 leaveTeam(){
 	if (checkMember() != 3){
-		send {1}
+		send {p}
 		return 1
 	}else{
 		return 0
