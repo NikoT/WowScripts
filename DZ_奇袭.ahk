@@ -12,13 +12,16 @@ MsgBox The color at the current cursor position (%MouseX% , %MouseY%) is %color%
 return
 
 F11:: 
-x = 2138
-y = 1136
+x = 718
+y = 1620
 
 
 MouseGetPos, MouseX, MouseY
 PixelGetColor, color, x, y
+
+clipboard := color
 MsgBox The color at the current cursor position (%x% , %y%) is %color%.
+
 return
 
 
@@ -31,51 +34,62 @@ else
 
 
 
-;control 键
-^WheelDown::
-^WheelUp::
 
-x = 2138
-y = 1136
+~RButton & WheelDown::
+~RButton & WheelUp::
 
-skillColor1 = 0xd27b72 ; hanbingjian
-skillColor2 = 0xffe62e ; baozhu
-skillColor3 = 0xa4632d ; blazzard
-skillColor4 = 0xffe688 ; bingfengbao
-skillColor5 = 0xf7deb2 ; bingqiang
+x = 718
+y = 1620
 
-skillColor6 = 0x3c595b ; duochong
-skillColor7 = 0x796965 ; duoming
-skillColor8 = 0x55245A ; NINGSHEN
-;skillColor9 = 0x232928
-;skillColor10 = 0x232928
+skillColor1 = 0xB7BABF ; 死亡标记
+skillColor2 = 0x21BAEF ; 切割
+skillColor3 = 0xB79463 ; baixuezhiren
+skillColor4 = 0x7A7488 ; 暗影打击
+skillColor5 = 0xADEBC6 ; 暗影之舞
+skillColor6 = 0x53526C ; 狂热鞭笞
+skillColor7 = 0xFF9EFF ; 死亡fuji
+skillColor8 = 0xF4E3D2 ; 申斥
+skillColor9 = 0x000000 ; 割裂
+skillColor10 = 0x080C10 ; 刺骨
+skillColor11 = 0x0D0D10 ; beici  youanzhiren
+skillColor12 = 0x521808 ;影分身
 
 PixelGetColor, color, x, y
 
 if (color = skillColor1){
-	send {=}
-}else if (color = skillColor2){
-	send {-}
-}else if (color = skillColor3){
-	send {0}
-}else if (color = skillColor4){
-	send {9}
-}else if (color = skillColor5){
-	send {8}
-}else if (color = skillColor6){
-	send {7}
-}else if (color = skillColor7){
-	send {6}
-}else if (color = skillColor8){
-	send {\}
-}else if (color = skillColor9){
-	send {]}
-}else if (color = skillColor10){
 	send {[}
+}else if (color = skillColor2){
+	send {o}
+}else if (color = skillColor3){
+	send {3}
+}else if (color = skillColor4){
+	send {1}
+}else if (color = skillColor5){
+	send {]}
+}else if (color = skillColor6){
+	send {4}
+}else if (color = skillColor7){
+	send {p}
+}else if (color = skillColor8){
+	send {2}
+}else if (color = skillColor9){
+	send {q}
+}else if (color = skillColor10){
+	send {e}
+}else if (color = skillColor11){
+	send {r}
+}else if (color = skillColor12){
+	send {5}
 }else{
 	
 }
 
 
 
+return
+
+
+
+F8:: 
+Reload 
 return

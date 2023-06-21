@@ -1,0 +1,72 @@
+/taget 巴库歇克
+/script SelectGossipOption(1)
+
+
+
+
+
+
+
+
+
+if [self(#1).active]
+	ability(#1)
+	ability(#2)
+	ability(#3)
+endif
+
+if [self(#2).active]
+	ability(#3) [enemy(#1).active]
+	ability(#2) [enemy(#1).active]
+	ability(#1)
+endif
+
+if [self(#3).active]
+	ability(#1) 
+endif
+
+change(next)
+
+
+================
+
+if [self(#1).active]
+	ability(#1)
+	ability(#2)
+	ability(#3)
+endif
+
+if [self(#2).active]
+	ability(#3) [enemy(#1).active]
+	ability(#2) [enemy(#1).active]
+	ability(#1)
+endif
+
+if [self(#3).active]
+	ability(#1)
+endif
+
+
+change(next)
+
+=====================4
+
+if [self(#1).active]
+	ability(#1)
+	ability(#2)
+	ability(#3)
+endif
+
+if [self(#2).active]
+	ability(#2) 
+	ability(#1)
+endif
+
+if [self(#3).active]
+	ability(#3)
+	ability(#1)
+endif
+
+
+change(next)
+

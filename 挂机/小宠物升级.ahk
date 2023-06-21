@@ -5,25 +5,26 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
 F12:: 
-
-WinMove, ahk_exe Wow.exe, ,0, 0 
-
-WinMove, ahk_exe SndVol.exe, ,1920, 0 
-
+Reload 
 return
 
 F11:: 
+
+	PixelGetColor, color, 2181, 2029
+	MsgBox The color at the current cursor position is %color%.
+
 return
 
 
 F10::
+
 return
 
 
 F7::
 
-PixelGetColor, color, 2181, 2029
-debug(color)
+	PixelGetColor, color, 1461, 1377
+	MsgBox The color at the current cursor position is %color%.
 
 return
 
@@ -37,63 +38,91 @@ return
 
 F9::
 
+debug("Pet battle START!!!!!!!!!!!!!!!!")
 
 Loop{
+
+debug("Loop begin")
 
 	StartTime := A_TickCount 
 
 	pet1()
 	npc()
-	Sleep, 3000 ; change view
+	Sleep, 2000 ; change view
 	fight()
-	Sleep, 3000 ; change view
+	Sleep, 500 ; change view
 
 	pet2()
 	npc()
-	Sleep, 3000 ; change view
+	Sleep, 2000 ; change view
 	fight()
-	Sleep, 3000 ; change view
+	Sleep, 500 ; change view
 
 	pet3()
 	npc()
-	Sleep, 3000 ; change view
+	Sleep, 2000 ; change view
 	fight()
-	Sleep, 3000 ; change view
+	Sleep, 500 ; change view
 
 	pet4()
 	npc()
-	Sleep, 3000 ; change view
+	Sleep, 2000 ; change view
 	fight()
-	Sleep, 3000 ; change view
+	Sleep, 500 ; change view
 
 	pet5()
 	npc()
-	Sleep, 3000 ; change view
+	Sleep, 2000 ; change view
 	fight()
-	Sleep, 3000 ; change view
+	Sleep, 500 ; change view
 
-	debug("finisheddddddddddd:")
+	pet6()
+	npc()
+	Sleep, 2000 ; change view
+	fight()
+	Sleep, 500 ; change view
+
+
+/* ============
+
+
+	
+	pet7()
+	npc()
+	Sleep, 2000 ; change view
+	fight()
+	Sleep, 500 ; change view
+
+
+================
+*/
+
+
+	debug("loop end:")
 	debug(A_Index)
 
-	Loop{
+	
+	Loop{ ; wait until recovering the pets
 		ElapsedTime := A_TickCount - StartTime
-		if (ElapsedTime > 8*60*1000) {
+		if (ElapsedTime > 8*60*1000+2) {
+			Sleep, 1000
+			Send {y} ;/cast 复活战斗宠物
 			break
 		}
 		Sleep, 1000
 	}
+	
 
-
-	send {f2}
+	
 
 }
 
 
 
 inBattle(){
-	PixelGetColor, color, 2181, 2029
-
-	if(color = 0x25387B){
+	PixelGetColor, color, 1461, 1377
+	;MsgBox The color at the current cursor position is %color%.
+	if(color = 0x29388c){
 		return 1
 	}else{
 		return 0
@@ -113,60 +142,77 @@ fight(){
 
 npc(){
 
+/*
 	Loop, 30{
 		send {w down}
 		Sleep, 30
 	}
 	Send {w up}
+*/
 
-	send {Click, 2041, 965  }
+	send {l} ; target
+	Sleep, 100
+	send {t} ; 交互
 	Sleep, 1000
-	send {Click, 162, 498  }
+	send {l} ; scrip
+
 }
 
 pet1(){
-	send {Click, 3652, 2122  }
-	Sleep, 1000
-	send {Click, 277, 1479  }
-	Sleep, 1000
-	send {Click, 1470, 465  }
-	send {Click, 1723, 253  }   ;close
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 350  }
+	Sleep, 500
+	send {k  }   ;close
 }
 
 pet2(){
-	send {Click, 3652, 2122  }
-	Sleep, 1000
-	send {Click, 277, 1479  }
-	Sleep, 1000
-	send {Click, 1470, 554  }
-	send {Click, 1723, 253  }   ;close
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 420  }
+	Sleep, 500
+	send {k  }   ;close
 }
 
 pet3(){
-	send {Click, 3652, 2122  }
-	Sleep, 1000
-	send {Click, 277, 1479  }
-	Sleep, 1000
-	send {Click, 1470, 656  }
-	send {Click, 1723, 253  }   ;close
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 490  }
+	Sleep, 500
+	send {k  }   ;close
 }
 
 pet4(){
-	send {Click, 3652, 2122  }
-	Sleep, 1000
-	send {Click, 277, 1479  }
-	Sleep, 1000
-	send {Click, 1470, 740  }
-	send {Click, 1723, 253  }   ;close
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 560  }
+	Sleep, 500
+	send {k  }   ;close
 }
 
 pet5(){
-	send {Click, 3652, 2122  }
-	Sleep, 1000
-	send {Click, 277, 1479  }
-	Sleep, 1000
-	send {Click, 1470, 822  }
-	send {Click, 1723, 253  }   ;close
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 620  }
+	Sleep, 500
+	send {k  }   ;close
+}
+
+
+pet6(){
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 680  }
+	Sleep, 500
+	send {k  }   ;close
+}
+
+pet7(){
+	send { k }
+	Sleep, 500
+	send {Click, 1111, 750  }
+	Sleep, 500
+	send {k  }   ;close
 }
 
 

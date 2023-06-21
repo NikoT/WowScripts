@@ -12,8 +12,8 @@ MsgBox The color at the current cursor position (%MouseX% , %MouseY%) is %color%
 return
 
 F11:: 
-		x = 1895
-		y = 1138
+		x = 1800
+		y = 1440
 		
 MouseGetPos, MouseX, MouseY
 PixelGetColor, color, x, y
@@ -36,21 +36,19 @@ func()
 func(){
 
 	begin = 0
+	battleTime = 0
+	queueTime = 0
 	Loop
 	{
-
 
 		if(begin = 0){
 			zhanchang()
 			Sleep, 1000
 			zhanchang()
 			begin = 1
+			queueTime := A_TickCount
 			debug("start") 
-
 		}
-
-		x1 = 1895
-		y1 = 1138
 
 		x2 = 1856
 		y2 = 588
@@ -58,40 +56,34 @@ func(){
 		x3 = 1835
 		y3 = 621
 
-		x4 = 2046
-		y4 = 1589
+		x4 = 1800
+		y4 = 1440
 
 		x5 = 1692
 		y5 = 362
 
 
-		skillColor1 = 0x08086b ; 就绪
 		skillColor2 = 0x040467 ; 排队
 		skillColor3 = 0x060667 ; 进战场
-		skillColor4 = 0x000364 ; 出战场
+		skillColor4 = 0x020264 ; 出战场
 		skillColor5 = 0x680000 ; 死亡释放
 
 
-		PixelGetColor, color1, x1, y1
 		PixelGetColor, color2, x2, y2
 		PixelGetColor, color3, x3, y3
 		PixelGetColor, color4, x4, y4
 		PixelGetColor, color5, x5, y5
 
-	;debug(color3)
-
-		if (color1 = skillColor1){
-			send {Click, %x1%, %y1%  }
-			MouseMove, 0, 0
-
-		}else if (color2 = skillColor2){
+		if (color2 = skillColor2){
 			send {Click, %x2%, %y2%  }
 			MouseMove, 0, 0
 
 		}else if (color3 = skillColor3){
 			send {Click, %x3%, %y3%  }
 			MouseMove, 0, 0
+			begin = 2
 			debug("go in") 
+			battleTime := A_TickCount
 
 		}else if (color4 = skillColor4){
 			send {Click, %x4%, %y4%  }
@@ -112,6 +104,25 @@ func(){
 		v := Mod(jump, 20)
 		if (v = 0){
 			send {Space}
+		}
+
+
+		if(begin == 1){ ; 排队太久
+			queueDuration := A_TickCount - queueTime
+			if(queueDuration > 15*60*1000){
+				begin = 0
+				Sleep, 10000
+				debug("re start") 
+			}
+		}
+
+		if(begin == 2){ ; 战场被踢 超时保护
+			battleDuration := A_TickCount - battleTime
+			if(battleDuration > 20*60*1000){
+				begin = 0
+				Sleep, 10000
+				debug("no end") 
+			}
 		}
 
 		Sleep, 1000

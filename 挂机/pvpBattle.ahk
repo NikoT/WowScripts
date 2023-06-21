@@ -4,30 +4,24 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
-;F12 get color !
+;--F12 get mouse color !
 F12:: 
 MouseGetPos, MouseX, MouseY
-PixelGetColor, color, %MouseX%, %MouseY%
+PixelGetColor, color, %MouseX%, %MouseY% ,RGB
 MsgBox The color at the current cursor position (%MouseX% , %MouseY%) is %color%.
 return
 
+;--get positon color 
 F11:: 
-		x = 1895
-		y = 1138
+		x = 1968
+		y = 577
 		
 MouseGetPos, MouseX, MouseY
-PixelGetColor, color, x, y
+PixelGetColor, color, x, y, RGB
 MsgBox The color at the current cursor position (%x% , %y%) is %color%.
 return
 
 
-F10::
-PixelSearch, Px, Py, 908, 0, 1070, 116, 0x130f65, 0, Fast
-if ErrorLevel
-    MsgBox, That color was not found in the specified region.
-else
-    MsgBox, A color within 0 shades of variation was found at X%Px% Y%Py%.
-return
 
 
 F9::
@@ -37,51 +31,46 @@ queueTime = 0
 waitTime = 0
 gameNum = 0
 
-flag = 0 ; 0初始 1组人 2组完 3排队 4进入 5出来
+flag = 0 ; 0 init  1 team  2 team ok 3 battle queue 4 goin 5 go out
 Loop
 {
-	debug(flag)
-	if (flag = 0){
-		send {o} ; /rl
-		Sleep, 1000*8
-
-		waitTime = 0
-		meetingStone()
+	if (flag == 0){
+		if(checkMember()<10){
+			meetingStone()
+		}
 		flag = 1
-	}else if(flag = 1){
-		if(checkMember()==2){
+	}else if(flag == 1){
+		Send {o} ; kick offline
+		if(checkMember()==10){
 			flag = 2
-		}else{
-			if(updateMeeting() == 0){
-				flag = 0
-			}
-			
+			waitTime = 0
+		}else if(checkMember()>10){
+			Send {p} ; build new team
+			flag = 0
+		}else {
+			meetingStone()
 		}
 	}else if(flag == 2){
 		if(waitTime>3){
-			leaveTeam()
+			Send {p} ;wrong ,build new team
 			flag = 0
 		}
-		if(checkMember()==2){
+		if(checkMember()==10){
 			queueDur := A_TickCount - queueTime
 			if(queueDur > 15*1000){
 				ratedBattle()      
 				waitTime++       				
 				queueTime := A_TickCount
 			}
-				
 			if(checkBattleStat() == 1){
 				flag = 3
-			}else{
-
 			}
 		}else{
 			flag = 0
 		}
 
 	}else if (flag = 3){
-	; 这里要加个保护 时间太久重置
-		if(checkMember()!=2){
+		if(checkMember()!=10){
 			flag = 0
 		}else{
 			if (goinBattle() == 1){
@@ -95,20 +84,19 @@ Loop
 		}
 	}else if(flag == 5){
 		if(gameNum<4){
-			flag = 2
+			flag = 0
 			Sleep, 15*1000
 		}else {
-			if (leaveTeam() == 1){
-				gameNum = 0
-				flag = 0
-			}
+			gameNum = 0
+			Send {p} ; build new team
+			flag = 0
 		}
 
 	}
 
 	jump := A_TickCount - now
 	if(jump > 20*1000){
-		send {Space}
+		Send {Space}
 		now := A_TickCount
 	}
 
@@ -116,22 +104,15 @@ Loop
 }
 
 
-leaveTeam(){
-	if (checkMember() != 3){
-		send {p}
-		return 1
-	}else{
-		return 0
-	}
-}
 
 outBattle(){
-	x4 = 2046
-	y4 = 1589
-	skillColor4 = 0x000364 ; 出战场
-	PixelGetColor, color4, x4, y4
+	x4 = 1798
+	y4 = 1442
+	skillColor4 = 0x650102
+	PixelGetColor, color4, x4, y4, RGB
 	if (color4 = skillColor4){
-		send {Click, %x4%, %y4%  }
+		Send {Click, %x4%, %y4%  }
+		debug("goooo oooout")
 		return 1
 	}else{
 	 	return 0
@@ -141,10 +122,13 @@ outBattle(){
 goinBattle(){
 	x3 = 1968
 	y3 = 577
-	skillColor3 = 0x010164 ; 进战场
-	PixelGetColor, color3, x3, y3
+	skillColor3 = 0x640101
+
+	PixelGetColor, color3, x3, y3, RGB
 	if (color3 = skillColor3){
-		send {Click, %x3%, %y3%  }
+		Send {Click, %x3%, %y3%  }
+		debug("goooo in")
+
 		return 1
 	}else{
 		return 0
@@ -152,8 +136,8 @@ goinBattle(){
 }
 
 ratedBattle(){
-	Sleep, 500
-	Click, 3596, 2118
+debug("queue ratedBattle")
+	Send {l}
 	Sleep, 500
 	Click, 459, 1112
 	Sleep, 500
@@ -170,21 +154,22 @@ ratedBattle(){
 
 checkMember(){
 	PixelGetColor, color, 0, 0,RGB
-	if (color = 0xff000b){ ;red
-		return 1
-	}else if (color = 0x00ff21){ ; green
-		return 2
+	if (color = 0xffffff){ 
+	debug("group member 10")
+		return 10
+	}else if (color = 0x000000){
+		return 11
 	}else{
-		return 3
+		return 9
 	}
 }
 
 checkBattleStat(){
-	PixelGetColor, color, 105, 0,RGB
-	if (color = 0x00ff21){ ; green
-		return 1
+	PixelGetColor, color, 200, 0,RGB
+	if (color = 0xffffff){ 
+		return 1 ; queued
 	}else{
-		return 0
+		return 0 ; none
 	}
 }
 
@@ -198,25 +183,8 @@ updateMeeting(){
 }
 
 meetingStone(){
-	Sleep, 500
-	Click, 3596, 2118
-	Sleep, 500
-	Click, 444, 1123
-	Sleep, 500
-	Click, 297, 852
-	Sleep, 500
-	Click, 609, 726
-	Sleep, 500
-	Click, 620, 1058
-	Sleep, 500
-	Click, 1056, 458
-	Sleep, 500
-	SendInput 打脚本 卡空 活人进组  ; title input	
-	Sleep, 500
-	Click, 1037, 1061
-	Sleep, 500
-	Click, 1142, 252  ;close
-	Sleep, 500
+debug("meeting stone")
+	Send {5}
 }
 
 
@@ -228,7 +196,8 @@ Reload
 return
 
 F7::
-ratedBattle()
+
+outBattle()
 
 return
 

@@ -12,13 +12,16 @@ MsgBox The color at the current cursor position (%MouseX% , %MouseY%) is %color%
 return
 
 F11:: 
-x = 2138
-y = 1136
+x = 718
+y = 1620
 
 
 MouseGetPos, MouseX, MouseY
 PixelGetColor, color, x, y
+
+clipboard := color
 MsgBox The color at the current cursor position (%x% , %y%) is %color%.
+
 return
 
 
@@ -31,57 +34,36 @@ else
 
 
 
-F8::
 
-Reload 
+
 
 return
 
 
+
+F8:: 
+Reload 
+return
+
+
+
 ~RButton & WheelDown::
+
+Send {6}
+Send {7}
+Send {8}
+Send {9}
+Send {0}
+
+return
+
 ~RButton & WheelUp::
 
-x = 2138
-y = 1136
-
-skillColor1 = 0x000000 ; suohou
-skillColor2 = 0x538264 ; duren
-skillColor3 = 0xafabac ; fuji
-skillColor4 = 0x772b19 ; huishang 
-skillColor5 = 0x97b4c9 ; daoshan
-skillColor6 = 0x9a989a ; gelie
-
-skillColor7 = 0xafb8b9 ; dushang
-skillColor8 = 0x02a8e3 ; qiege
-skillColor9 = 0x101821 ; siwangbiaoji
-skillColor10 = 0x8a613d ; mengyu 
-
-PixelGetColor, color, x, y
-
-if (color = skillColor1){
-	send {=}
-}else if (color = skillColor2){
-	send {-}
-}else if (color = skillColor3){
-	send {0}
-}else if (color = skillColor4){
-	send {9}
-}else if (color = skillColor5){
-	send {8}
-}else if (color = skillColor6){
-	send {7}
-}else if (color = skillColor7){
-	send {6}
-}else if (color = skillColor8){
-	send {\}
-}else if (color = skillColor9){
-	send {]}
-}else if (color = skillColor10){
-	send {[}
-}else{
-	
-}
-
-
+Send {6}
+Send {7}
+Send {8}
+Send {9}
+Send {-}
+Send {=}
 
 return

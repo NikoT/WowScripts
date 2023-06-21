@@ -2,18 +2,26 @@
 -- kick offline GROUP_ROSTER_UPDATE, PARTY_MEMBER_DISABLE
 function ()
 	local NumGroup = GetNumGroupMembers()
+    print("  NumGroup  " .. NumGroup)
+
 	for i=1,NumGroup do
 		local indexID = "raid" .. tostring(i)
 		local isOnline = UnitIsConnected(indexID)
-		local name = GetUnitName(indexID,true)
-		-- print(name .. "  online  " .. tostring(isOnline))
-		if isOnline == false then 
-			print("kick" .. tostring(name))
-			UninviteUnit(name)
+		local fullname = GetUnitName(indexID,true)
+        local name = GetUnitName(indexID,false)
+
+		if name and isOnline == false then 
+                print("!!!kick" .. tostring(fullname))
+                UninviteUnit(name)
+                UninviteUnit(fullname)
 		end
 	end
 	return true
 end
+
+/run for i=1,GetNumGroupMembers() do local f=GetUnitName("raid"..i,true) local s = GetUnitName("raid"..i,false) print("k") UninviteUnit(s) UninviteUnit(f) end
+
+/run for i=1,GetNumGroupMembers() do local f=GetUnitName("raid"..i,true) local s = GetUnitName("raid"..i,false) print("k") UninviteUnit(s) UninviteUnit(f) end 
 
 
 --memeber 10 GROUP_ROSTER_UPDATE
@@ -56,8 +64,28 @@ end
 
 
 
-
+   --  print("battle status",event, ...)
+   --  local arg = {...}
+   --  for i,v in ipairs(arg) do
+   --  print("... :" , i, v)
+   --  local stat = GetBattlefieldStatus(1)
+   --  print("stat :" , stat)
+   -- end
 -- UPDATE_BATTLEFIELD_STATUS
-function ()
-    return true
+function (event, ...)
+    RepopMe()
+    local stat = GetBattlefieldStatus(1)
+    print("stat :" , stat)
+    if stat == "none" then 
+        return false
+    elseif stat == "active" then
+        local winner = GetBattlefieldWinner()
+        print("winner :" , winner)
+        if winner then 
+        --LeaveBattlefield()
+        end
+        return true
+    else
+        return true
+    end
 end

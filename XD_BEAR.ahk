@@ -12,13 +12,16 @@ MsgBox The color at the current cursor position (%MouseX% , %MouseY%) is %color%
 return
 
 F11:: 
-x = 2138
-y = 1136
+x = 718
+y = 1620
 
 
 MouseGetPos, MouseX, MouseY
 PixelGetColor, color, x, y
+
+clipboard := color
 MsgBox The color at the current cursor position (%x% , %y%) is %color%.
+
 return
 
 
@@ -35,37 +38,35 @@ else
 ~RButton & WheelDown::
 ~RButton & WheelUp::
 
-x = 2138
-y = 1136
+x = 718
+y = 1620
 
-skillColor1 = 0x8f1629 ; danmu
-skillColor2 = 0xfffff7 ; aobao
-skillColor3 = 0x2c0b05 ; dafashi zhichu
+skillColor1 = 0xFFFFFF ; YUEHUO
+skillColor2 = 0x464851 ; tongji
+skillColor3 = 0x1B2569 ; LIESHAGN
+skillColor4 = 0x392839 ; ZHONGOU
+skillColor5 = 0x080808 ; hengsao
 
-skillColor4 = 0xfbefe5 ; falibaoshi
-
-skillColor5 = 0xde728b ; aoochong
-
-skillColor6 = 0xfffbff ; aoshu
-skillColor7 = 0x796965 ; duoming
-skillColor8 = 0x55245A ; NINGSHEN
-;skillColor9 = 0x232928
-;skillColor10 = 0x232928
+skillColor6 = 0x5A808F ; menghu
+skillColor7 = 0x080808 ; hengsao
+skillColor8 = 0x343564 ; yuanshizhinu
+skillColor9 = 0x888b82 ; yemanhuikan
+skillColor10 = 0x2115b0 ; yexingkuangluan
 
 PixelGetColor, color, x, y
 
 if (color = skillColor1){
-	send {=}
+	send {1}
 }else if (color = skillColor2){
-	send {-}
+	send {2}
 }else if (color = skillColor3){
-	send {0}
+	send {3}
 }else if (color = skillColor4){
-	send {9}
+	send {4}
 }else if (color = skillColor5){
-	send {8}
+	send {q}
 }else if (color = skillColor6){
-	send {7}
+	send {4}
 }else if (color = skillColor7){
 	send {6}
 }else if (color = skillColor8){
