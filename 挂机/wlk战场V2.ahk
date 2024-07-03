@@ -3,6 +3,7 @@
 F8::Reload 
 
 F7::{
+
 }
 
 F9::{
@@ -37,7 +38,7 @@ jump(){
 
 paidui(){
     debug("paidui ")
-    Send "{H}"
+    Send "{h}"
     Sleep 1000
     Send "{Click 160 324}"
     Sleep 1000
@@ -47,7 +48,7 @@ paidui(){
     Sleep 1000
     Send "{Click 363 883}"
     Sleep 1000
-    Send "{H}"
+    Send "{h}"
 }
 
 
