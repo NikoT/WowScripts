@@ -90,6 +90,7 @@ goout(){
         color1 := 0xffd100
         if ( PixelGetColor(x1, y1) == 0xffd100){
             Click x1, y1
+            MouseMove 100, 100 ;移开
         }
 
         xm := 1180
