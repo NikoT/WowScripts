@@ -80,7 +80,7 @@ goout(){
     StartTime := A_TickCount   ; 超过X秒退出
     Loop{ 
         ElapsedTime := A_TickCount - StartTime
-        if (ElapsedTime > 20*60*1000) {
+        if (ElapsedTime > 35*60*1000) { ;战歌能打30分钟..
             debug("ERR : overtime")
             return 0
         }
